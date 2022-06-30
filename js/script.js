@@ -3,6 +3,25 @@
 	this.api = async function (path) {
 		const response = await fetch(`http://192.99.167.207:9000/${path}`);
 		return await response.json();
+	};
+	this.graphql = async function (query) {
+		const response = await fetch(
+			"https://api.baseql.com/airtable/graphql/apptqnWFREJiuuggI",
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Accept: "application/json",
+				},
+				body: JSON.stringify({
+					operationName: "MyQuery",
+					query: query,
+					variables: null,
+				}),
+			}
+		);
+		const rawData = await response.json();
+		return rawData.data[Object.keys(rawData.data)[0]];
 	}
 	
 	//Hide Loading Box (Preloader)

@@ -2,7 +2,16 @@ this.body.addEventListener("pageLoaded", async () => {
 
     const faqDiv = document.getElementById("faq-container");
 
-    const faqData = await this.api("faq");
+    const faqData = await this.graphql(`
+    query MyQuery {
+        faQs {
+          author
+          id
+          content
+          title
+        }
+      }    
+    `);
 
     const converter = new showdown.Converter();
 

@@ -4,7 +4,22 @@ this.body.addEventListener("pageLoaded", async () => {
     const blogPostsDiv = document.getElementById('blog-container');
 
     // Fetch the blog posts
-    const blogPostsData = await this.api('blogs');
+    const blogPostsData = await this.graphql(`
+    query MyQuery {
+        blogs {
+          authorAvatar
+          authorDescription
+          authorName
+          content
+          createdAt
+          id
+          slug
+          tags
+          thumbnail
+          title
+        }
+      }      
+    `);
 
     blogPostsData.slice(0, 3).forEach((blogPost, i) => {
         const post = createBlogPost(blogPost, i);
@@ -12,17 +27,18 @@ this.body.addEventListener("pageLoaded", async () => {
     });
 
     function createBlogPost(post, i) {
-        const { _id, title, thumbnail, displayDate } = post;
+        const { id, title, thumbnail, createdAt } = post;
+        const thumb = thumbnail[0] ? thumbnail[0].url : undefined;
         return `
                 <!-- News Block -->
 				<div class="news-block col-lg-4 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="${i + (i * 300)}ms" data-wow-duration="1500ms">
 					<div class="inner-box hvr-bob">
 						<div class="image">
-							<a href="blog.html?id=${_id}"><img src="${thumbnail}" alt="" /></a>
+							<a href="blog.html?id=${id}"><img src="${thumb || "https://cdn.blitzesports.org/website/blog/default.png"}" alt="" /></a>
 						</div>
 						<div class="lower-content">
-							<div class="post-date">${displayDate}</div>
-							<h3><a href="blog.html?id=${_id}">${title}</a></h3>
+							<div class="post-date">${new Date(createdAt).toLocaleDateString()}</div>
+							<h3><a href="blog.html?id=${id}">${title}</a></h3>
 						</div>
 					</div>
 				</div>

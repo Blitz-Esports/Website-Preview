@@ -4,23 +4,35 @@ this.body.addEventListener("pageLoaded", async () => {
     const galleryDiv = document.getElementById('gallery-container');
 
     // Fetch the blog posts
-    const galleryData = await this.api('gallery');
+    const galleryData = await this.graphql(
+        `
+        query MyQuery {
+            gallery {
+              creationDate
+              image
+              id
+            }
+          }          
+        `
+    );
 
-    galleryData.forEach((galleryImage , index) => {
-        const post = createGalleryH(galleryImage , index);
+    galleryData.forEach((galleryImage, index) => {
+        const post = createGalleryH(galleryImage, index);
         galleryDiv.innerHTML += post;
     });
 
-    function createGalleryH(gData , i) {
-        const { name , url , resize } = gData;
+    function createGalleryH(gData, i) {
+        const { id, image } = gData;
+        const { url } = image[0];
+        const resize = false;
         const fUrl = resize ? `https://imageproxy.blitzesports.org/-/rs:fit:370:368/plain/${url}` : url;
-        if(i % 4 === 0) i = 0
+        if (i % 4 === 0) i = 0
         return `
         <!--Gallery Item-->
         <div class="gallery-item col-lg-4 col-md-6 col-sm-12 wow fadeInLeft" data-wow-delay="${i + (i * 300)}ms">
             <div class="inner-box">
                 <figure class="image-box">
-                    <img src="${fUrl}" alt="${name}">
+                    <img src="${fUrl}" alt="${id}">
                     <!--Overlay Box-->
                     <div class="overlay-box">
                         <div class="overlay-inner">
