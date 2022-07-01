@@ -26,7 +26,7 @@ this.body.addEventListener("pageLoaded", async () => {
         const { url } = image[0];
         const resize = false;
         const fUrl = resize ? `https://imageproxy.blitzesports.org/-/rs:fit:370:368/plain/${url}` : url;
-        if (i % 4 === 0) i = 0
+        // if (i % 4 === 0) i = 0
         return `
         <!--Gallery Item-->
         <div class="gallery-item col-lg-4 col-md-6 col-sm-12 wow fadeInLeft" data-wow-delay="${i + (i * 300)}ms">

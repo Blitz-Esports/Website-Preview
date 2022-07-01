@@ -89,6 +89,7 @@
 
 	if ($('.banner-carousel').length) {
 		$('.banner-carousel').owlCarousel({
+			navContainer: "cont",
 			loop: true,
 			margin: 0,
 			nav: true,
