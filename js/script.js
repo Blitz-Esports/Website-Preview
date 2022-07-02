@@ -1,9 +1,6 @@
 (function ($) {
 	this.body = document.getElementsByClassName("page-wrapper")[0];
-	this.api = async function (path) {
-		const response = await fetch(`http://192.99.167.207:9000/${path}`);
-		return await response.json();
-	};
+
 	this.graphql = async function (query) {
 		const response = await fetch(
 			"https://api.baseql.com/airtable/graphql/apptqnWFREJiuuggI",
@@ -21,17 +18,15 @@
 			}
 		);
 		const rawData = await response.json();
+		console.log(`New request made: ${response.url}`)
 		return rawData.data[Object.keys(rawData.data)[0]];
 	}
-	
+
 	//Hide Loading Box (Preloader)
 	function handlePreloader() {
 		if ($('.preloader').length) {
-			const event = new CustomEvent('pageLoaded', { detail: true });
-			this.body.dispatchEvent(event);
-
 			$('body').addClass('page-loaded');
-			$('.preloader').delay(1000).fadeOut(300);
+			$('.preloader').delay(800).fadeOut(300);
 		}
 	}
 
@@ -87,9 +82,10 @@
 		});
 	}
 
+	/*
 	if ($('.banner-carousel').length) {
 		$('.banner-carousel').owlCarousel({
-			navContainer: "cont",
+			video: true,
 			loop: true,
 			margin: 0,
 			nav: true,
@@ -112,6 +108,7 @@
 			}
 		});
 	}
+	*/
 
 
 	//Single Item Carousel
@@ -293,7 +290,13 @@
 	   When document is loading, do
 	   ========================================================================== */
 
-	$(window).on('load', function () {
+	$(window).on('load', async function () {
+		const event = new CustomEvent('pageLoaded', { detail: true });
+		this.body.dispatchEvent(event);
+
+		// await 1000 ms 
+		await new Promise(resolve => setTimeout(resolve, 500));
+
 		handlePreloader();
 	});
 
