@@ -11,18 +11,19 @@ this.body.addEventListener("pageLoaded", async () => {
           title
           buttonText
           thumbnail
+		  resize
         }
       }       
     `);
 
 
    const data = headerData.map((hData, i) => {
-        const { url, title, buttonText , thumbnail } = hData;
+        const { url, title, buttonText , thumbnail , resize } = hData;
 
         return `
                <div class="slide-item">
 					<div class="image-layer" id="header-thumbnail-1"
-						style="background-image:url(https://imageproxy.blitzesports.org/-/rs:fit:1800:800/plain/${thumbnail})">
+						style="background-image:url(${resize ? `https://imageproxy.blitzesports.org/-/rs:fit:1800:800/plain/${thumbnail}` : thumbnail})">
 					</div>
 
 					<div class="auto-container">
