@@ -1,4 +1,4 @@
-/* Gamon - Digital Gaming and Esports HTML Template  */
+/* BLITZ — A Mobile eSports Organization  */
 
 /*********** TABLE OF CONTENTS **************
 1. Fonts
@@ -2082,7 +2082,7 @@ img {
 
 .welcome-section {
 	position: relative;
-	padding: 115px 0px 115px;
+	padding: 115px 0px 0px;
 }
 
 .welcome-section:before {
@@ -2479,7 +2479,7 @@ img {
 	text-transform: uppercase;
 	padding: 25px 55px;
 	line-height: 30px;
-	background-color: rgba(55, 134, 255, 0.80);
+	background-color: #EF5525;
 }
 
 .gallery-block-two .inner-box .image .overlay-box h3 .icon {
@@ -4191,7 +4191,7 @@ img {
 .page-banner {
 	position: relative;
 	padding: 140px 0 90px;
-	background-position: center top;
+	background-position: center middle;
 	background-repeat: no-repeat;
 	background-size: cover;
 	text-align: center;
