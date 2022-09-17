@@ -1,25 +1,19 @@
 (function ($) {
 	this.body = document.getElementsByClassName("page-wrapper")[0];
 
-	this.graphql = async function (query) {
-		const response = await fetch(
-			"https://api.baseql.com/airtable/graphql/apptqnWFREJiuuggI",
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Accept: "application/json",
-				},
-				body: JSON.stringify({
-					operationName: "MyQuery",
-					query: query,
-					variables: null,
-				}),
-			}
-		);
-		const rawData = await response.json();
-		console.log(`New request made: ${response.url}`)
-		return rawData.data[Object.keys(rawData.data)[0]];
+	this.api = async function (route) {
+		console.log(`%c Fetch: /${route}`, 'color: yellow;');
+		//const response = await fetch(`https://aggregator.blitzesports.org/${route}`);
+		const response = await fetch("http://localhost:3000/" + route)
+		const data = await response.json();
+		console.log(`%c Success: /${route}`, 'color: green;');
+		return data;
+	}
+
+	this.transData = function (input, path) {
+		const details = input.detail.find((i) => i.path === path);
+		if (details) return details.data;
+		else return null;
 	}
 
 	//Hide Loading Box (Preloader)
@@ -291,13 +285,45 @@
 	   ========================================================================== */
 
 	$(window).on('load', async function () {
-		const event = new CustomEvent('pageLoaded', { detail: true });
-		this.body.dispatchEvent(event);
+		let path = window.location.pathname;
+		path = path.slice(1);
+		path = path.split("?")[0];
+		path = path.replace(".html", "");
+		path = path || "index";
 
-		// await 1000 ms 
-		await new Promise(resolve => setTimeout(resolve, 500));
+		let data = null;
+		if (ApiMap[path]) data = await Promise.all(ApiMap[path].map(async (p) => {
+			return {
+				path: p,
+				data: await this.api(p)
+			}
+		})).catch(() => null);
+
+		const event = new CustomEvent('pageLoaded', { detail: data });
+		this.body.dispatchEvent(event);
 
 		handlePreloader();
 	});
 
 })(window.jQuery);
+
+let ApiMap = {
+	index: [
+		"header",
+		"faq",
+		"content",
+		"blog"
+	],
+	gallery: [
+		"gallery"
+	],
+	faq: [
+		"faq"
+	],
+	blogs: [
+		"blog"
+	],
+	blog: [
+		"blog"
+	]
+}
