@@ -45,7 +45,7 @@ this.body.addEventListener("pageLoaded", async (data) => {
 							<div class="gallery-block-two">
 								<div class="inner-box wow fadeInRight animated" data-wow-delay="0ms" data-wow-duration="1500ms" style="visibility: visible; animation-duration: 1500ms; animation-delay: 0ms; animation-name: fadeInRight;">
 									<div class="image hvr-bob">
-										<img src="https://aggregator.blitzesports.org/resize/${thumbnail}?h=290&w=570&crop=true" alt="">
+										<img src="https://aggregator.blitzesports.org/resize/${thumbnail}%3Ft%3D${Date.now()}?h=290&w=570&crop=true" alt="">
 										<div class="overlay-box">
 											<a href="${url}" class="lightbox-image overlay-link"></a>
 											<h3><span class="icon flaticon-play-button"></span>${title}</h3>
